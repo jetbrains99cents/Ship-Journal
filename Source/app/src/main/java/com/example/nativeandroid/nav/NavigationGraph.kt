@@ -1,10 +1,13 @@
 package com.example.nativeandroid.nav
 
 import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.nativedandroid.screens.*
+import com.example.nativeandroid.*
+
+//import com.example.nativeandroid.screens.*
 
 @Composable
 fun NavigationGraph(navController: NavHostController) {

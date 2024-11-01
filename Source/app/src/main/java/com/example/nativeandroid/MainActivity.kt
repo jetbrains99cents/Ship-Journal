@@ -42,7 +42,7 @@ import java.util.Locale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.times
 
-import com.example.nativedandroid.nav.NavigationGraph
+import com.example.nativeandroid.nav.NavigationGraph
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +57,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 /*@Composable
 fun NavigationGraph(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "home_screen") {
