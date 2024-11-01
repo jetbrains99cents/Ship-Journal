@@ -1,4 +1,4 @@
-package com.example.shipjournal.ui.theme
+package com.example.ship_journal.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

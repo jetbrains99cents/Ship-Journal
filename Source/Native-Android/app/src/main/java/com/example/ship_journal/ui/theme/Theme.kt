@@ -1,4 +1,4 @@
-package com.example.shipjournal.ui.theme
+package com.example.ship_journal.ui.theme
 
 import android.app.Activity
 import android.os.Build

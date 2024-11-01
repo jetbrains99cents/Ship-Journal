@@ -19,5 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Ship Journal"
+rootProject.name = "Ship-Journal"
 include(":app")
+ 

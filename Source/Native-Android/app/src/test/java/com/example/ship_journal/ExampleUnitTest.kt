@@ -1,4 +1,4 @@
-package com.example.shipjournal
+package com.example.ship_journal
 
 import org.junit.Test
 
