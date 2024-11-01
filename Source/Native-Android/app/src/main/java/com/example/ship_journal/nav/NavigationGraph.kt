@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.ship_journal.screens.*
 import com.example.ship_journal.*
 
 @Composable
@@ -19,7 +20,11 @@ fun NavigationGraph(navController: NavHostController) {
         composable("watch_menu_selection_screen") { WatchMenuSelectionScreen(navController) }
 
         // Other operation related screens
-        composable("journal_entry_screen") { JournalEntryScreen(navController) }
+        composable("journal_entry_menu_screen") { JournalEntryMenuScreen(navController) }
+        composable("journal_entry_main_engine_screen") { JournalEntryMenuScreen(navController) }
+        composable("journal_entry_auxiliary_engine_screen") { JournalEntryMenuScreen(navController) }
+        composable("journal_entry_refrigerator_screen") { JournalEntryMenuScreen(navController) }
+        composable("journal_entry_temperature_screen") { JournalEntryMenuScreen(navController) }
         composable("preview_screen") { PreviewScreen(navController) }
         composable("check_catch_quantity_screen") { CheckCatchQuantityScreen(navController) }
         composable("fo_remaining_screen") { FORemainingScreen(navController) }
