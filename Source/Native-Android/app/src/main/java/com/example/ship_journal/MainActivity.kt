@@ -47,6 +47,10 @@ import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.TextButton
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import java.text.SimpleDateFormat
 
 import com.example.ship_journal.nav.NavigationGraph
@@ -68,119 +72,125 @@ class MainActivity : ComponentActivity() {
 // Custom Button Model
 @Composable
 fun CustomButton(
-    onClick: () -> Unit,
-    text: String,
-    modifier: Modifier = Modifier
+    onClick: () -> Unit, text: String, modifier: Modifier = Modifier
 ) {
     Button(
-        onClick = onClick,
-        modifier = modifier,
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3))
+        onClick = onClick, modifier = modifier, colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3))
     ) {
         Text(text = text)
     }
 }
 
-// Homescreen definition
 @Composable
 fun HomeScreen(navController: NavHostController) {
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.Start
-        ) {
-            // Top Bar
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                // Home Icon
-                Image(
-                    painter = painterResource(id = R.drawable.ic_home),
-                    contentDescription = "Home Icon",
-                    modifier = Modifier.size(40.dp)
-                )
-
-                // Logos
-                Row {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_logo_1),
-                        contentDescription = "Logo 1",
-                        modifier = Modifier.size(40.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_logo_2),
-                        contentDescription = "Logo 2",
-                        modifier = Modifier.size(40.dp)
-                    )
-                }
-            }
-
-            // Center Buttons
+        Box(modifier = Modifier.fillMaxSize()) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.Start
             ) {
-                val buttonWidth = Modifier.fillMaxWidth(0.8f) // 80% of the screen width
-                val buttonShape = RoundedCornerShape(16.dp) // More rounded corners
+                // Top Bar
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    // Home Icon
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_home),
+                        contentDescription = "Home Icon",
+                        modifier = Modifier.size(40.dp)
+                    )
 
-                Button(
-                    onClick = { navController.navigate("watch_date_selection_screen") },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)), // Custom background color
-                    modifier = buttonWidth.padding(8.dp),
-                    shape = buttonShape
-                ) {
-                    Text(text = "Watch Screen", color = Color.White) // Set text color to contrast
+                    // Logos
+                    Row {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_logo_1),
+                            contentDescription = "Logo 1",
+                            modifier = Modifier.size(40.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_logo_2),
+                            contentDescription = "Logo 2",
+                            modifier = Modifier.size(40.dp)
+                        )
+                    }
                 }
-                Button(
-                    onClick = { navController.navigate("maintenance_screen") },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
-                    modifier = buttonWidth.padding(8.dp),
-                    shape = buttonShape
+
+                // Center Buttons
+                Column(
+                    modifier = Modifier.fillMaxSize().padding(16.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "Maintenance Screen", color = Color.White)
-                }
-                Button(
-                    onClick = { navController.navigate("watch_table_screen") },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
-                    modifier = buttonWidth.padding(8.dp),
-                    shape = buttonShape
-                ) {
-                    Text(text = "Watch Table", color = Color.White)
-                }
-                Button(
-                    onClick = { navController.navigate("graph_creation_screen") },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
-                    modifier = buttonWidth.padding(8.dp),
-                    shape = buttonShape
-                ) {
-                    Text(text = "Graph Creation", color = Color.White)
-                }
-                Button(
-                    onClick = { navController.navigate("setting_screen") },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
-                    modifier = buttonWidth.padding(8.dp),
-                    shape = buttonShape
-                ) {
-                    Text(text = "Setting", color = Color.White)
+                    val buttonWidth = Modifier.fillMaxWidth(0.8f) // 80% of the screen width
+                    val buttonShape = RoundedCornerShape(16.dp) // More rounded corners
+
+                    Button(
+                        onClick = { navController.navigate("watch_date_selection_screen") },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
+                        modifier = buttonWidth.padding(8.dp),
+                        shape = buttonShape
+                    ) {
+                        Text(text = "Watch Screen", color = Color.White)
+                    }
+                    Button(
+                        onClick = { navController.navigate("maintenance_screen") },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
+                        modifier = buttonWidth.padding(8.dp),
+                        shape = buttonShape
+                    ) {
+                        Text(text = "Maintenance Screen", color = Color.White)
+                    }
+                    Button(
+                        onClick = { navController.navigate("watch_table_screen") },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
+                        modifier = buttonWidth.padding(8.dp),
+                        shape = buttonShape
+                    ) {
+                        Text(text = "Watch Table", color = Color.White)
+                    }
+                    Button(
+                        onClick = { navController.navigate("graph_creation_screen") },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
+                        modifier = buttonWidth.padding(8.dp),
+                        shape = buttonShape
+                    ) {
+                        Text(text = "Graph Creation", color = Color.White)
+                    }
+                    Button(
+                        onClick = { navController.navigate("setting_screen") },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
+                        modifier = buttonWidth.padding(8.dp),
+                        shape = buttonShape
+                    ) {
+                        Text(text = "Setting", color = Color.White)
+                    }
                 }
             }
+
+            // Bottom-right "LUNA NEXUS" text
+            /*Text(
+                text = "LUNA NEXUS",
+                color = Color(0xFF2690A3),  // Custom color
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.SansSerif, // Use your actual font if custom
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
+            )*/
+
+            // Bottom-right Luna Nexus logo
+            Image(
+                painter = painterResource(id = R.drawable.luna_nexus_logo),
+                contentDescription = "Luna Nexus Logo",
+                modifier = Modifier.align(Alignment.BottomEnd).padding(6.dp).size(100.dp)
+            )
         }
     }
-}
-
-// Maintenance related screens definition
-@Composable
-fun MaintenanceScreen() {
-    Text("Maintenance Screen")
 }
 
 // Watch table related screens definition

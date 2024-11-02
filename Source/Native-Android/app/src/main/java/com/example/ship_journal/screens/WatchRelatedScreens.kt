@@ -1,5 +1,7 @@
 package com.example.ship_journal.screens
 
+import com.example.ship_journal.screens.components.*
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,59 +21,6 @@ import androidx.compose.ui.unit.times
 import androidx.navigation.NavHostController
 import java.text.SimpleDateFormat
 import java.util.*
-
-// Modal date picker definition
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DatePickerModal(
-    onDateSelected: (Long?) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val datePickerState = rememberDatePickerState()
-
-    DatePickerDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(onClick = {
-                onDateSelected(datePickerState.selectedDateMillis)
-                onDismiss()
-            }) {
-                Text("OK")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
-            }
-        }
-    ) {
-        DatePicker(state = datePickerState)
-    }
-}
-
-// Grid view card
-@Composable
-fun GridMiniPreviewCard(
-    title: String,
-    onClick: () -> Unit // onClick parameter for navigation
-) {
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-
-    Card(
-        modifier = Modifier
-            .width(0.45f * screenWidth) // 45% of screen width
-            .height(0.4f * screenHeight) // 40% of screen height
-            .clickable { onClick() } // Make the card clickable
-    ) {
-        Text(
-            text = title,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        )
-    }
-}
 
 // Date selection screen definition
 @Composable
@@ -455,10 +404,10 @@ fun JournalEntryMenuScreen(navController: NavHostController) {
                 )
             }
 
-            // Display 4 texts for 4 mini grid views to 4 sides on the screens, : M/E, A/E, REF, TEMP
-            // Display 4 mini grid views of 4 entries to 4 sides on the screen, every view is below to according text: M/E, A/E, REF, TEMP
-            // When touch/click on mini view, we switch to a larger screen that displays full of grid/sheet view
-            Column {
+            // Display 4 mini grid views
+            Column(
+                modifier = Modifier.weight(1f) // Allow this column to take available space
+            ) {
                 // Display M/E and A/E grid views
                 Row(
                     modifier = Modifier
@@ -466,8 +415,12 @@ fun JournalEntryMenuScreen(navController: NavHostController) {
                         .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    GridMiniPreviewCard("M/E", onClick = { navController.navigate("preview_screen")}) // Navigate on click
-                    GridMiniPreviewCard("A/E", onClick = { navController.navigate("preview_screen")}) // Navigate on click
+                    GridMiniPreviewCard(
+                        "M/E",
+                        onClick = { navController.navigate("journal_entry_main_engine_screen") })
+                    GridMiniPreviewCard(
+                        "A/E",
+                        onClick = { navController.navigate("journal_entry_auxiliary_engine_screen") })
                 }
                 // Display REF and TEMP grid views
                 Row(
@@ -476,8 +429,12 @@ fun JournalEntryMenuScreen(navController: NavHostController) {
                         .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    GridMiniPreviewCard("REF", onClick = { navController.navigate("preview_screen")}) // Navigate on click
-                    GridMiniPreviewCard("TEMP", onClick = { navController.navigate("preview_screen")}) // Navigate on click
+                    GridMiniPreviewCard(
+                        "REF",
+                        onClick = { navController.navigate("journal_entry_refrigerator_screen") })
+                    GridMiniPreviewCard(
+                        "TEMP",
+                        onClick = { navController.navigate("journal_entry_temperature_screen") })
                 }
             }
 
