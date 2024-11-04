@@ -26,8 +26,11 @@ fun NavigationGraph(navController: NavHostController) {
         composable("journal_entry_refrigerator_screen") { JournalEntryRefrigeratorScreen(navController) }
         composable("journal_entry_temperature_screen") { JournalEntryTemperatureScreen(navController) }
 
+        //Preview screen that takes data from 4 journal entry screens
         composable("preview_screen") { PreviewScreen(navController) }
+
         composable("check_catch_quantity_screen") { CheckCatchQuantityScreen(navController) }
+
         composable("fo_remaining_screen") { FORemainingScreen(navController) }
 
         // Maintenance operation related screens

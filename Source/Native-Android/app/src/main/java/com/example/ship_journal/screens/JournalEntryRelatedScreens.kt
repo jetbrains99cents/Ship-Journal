@@ -195,9 +195,9 @@ fun JournalEntryMainEngineScreen(navController: NavHostController) {
                 }
 
                 Button(
-                    onClick = {
+                    onClick = {6
                         // Handle save operation here
-                        navController.navigate("home_screen")
+                        navController.navigate("watch_menu_selection_screen")
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
                     modifier = Modifier.width(150.dp)
@@ -385,7 +385,7 @@ fun JournalEntryAuxiliaryEngineScreen(navController: NavHostController) {
 
                 Button(
                     onClick = {
-                        navController.navigate("home_screen")
+                        navController.navigate("watch_menu_selection_screen")
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
                     modifier = Modifier.width(150.dp)
@@ -573,7 +573,7 @@ fun JournalEntryRefrigeratorScreen(navController: NavHostController) {
 
                 Button(
                     onClick = {
-                        navController.navigate("home_screen")
+                        navController.navigate("watch_menu_selection_screen")
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
                     modifier = Modifier.width(150.dp)
@@ -763,7 +763,7 @@ fun JournalEntryTemperatureScreen(navController: NavHostController) {
 
                 Button(
                     onClick = {
-                        navController.navigate("home_screen")
+                        navController.navigate("watch_menu_selection_screen")
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
                     modifier = Modifier.width(150.dp)
