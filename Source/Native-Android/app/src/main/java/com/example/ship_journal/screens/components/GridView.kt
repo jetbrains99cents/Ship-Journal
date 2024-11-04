@@ -37,7 +37,7 @@ fun JournalEntryGridView(
                             when (index) {
                                 0 -> 0.5f // No column
                                 1 -> 1.5f // Item column
-                                else -> 1f // Qty column
+                                else -> 1.5f // Qty column
                             }
                         )
                         .border(1.dp, Color.Gray)
@@ -52,68 +52,77 @@ fun JournalEntryGridView(
 
         // Grid content
         LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            modifier = Modifier.fillMaxWidth()
+            columns = GridCells.Fixed(1),
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(0.dp) // Removed padding
         ) {
-            items(rowCount * 3) { index ->
-                val row = index / 3
-                val col = index % 3
+            items(rowCount) { row ->
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    // No Column (Index 0)
+                    Box(
+                        modifier = Modifier
+                            .weight(0.5f)
+                            .border(1.dp, Color.Gray)
+                            .background(Color.White)
+                            .height(60.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "${row + 1}"
+                        )
+                    }
 
-                Box(
-                    modifier = Modifier
-                        .border(1.dp, Color.Gray)
-                        .background(Color.White)
-                        .height(60.dp)
-                        .then(
-                            when (col) {
-                                0 -> Modifier.fillMaxWidth(0.15f) // No column
-                                1 -> Modifier.fillMaxWidth(0.5f)  // Item column
-                                else -> Modifier.fillMaxWidth(0.35f) // Qty column
-                            }
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    when (col) {
-                        0 -> { // No column
-                            Text(
-                                text = "${row + 1}"
-                            )
-                        }
-                        1 -> { // Item column
-                            var itemText by remember { mutableStateOf(contents[row * 2]) }
-                            TextField(
-                                value = itemText,
-                                onValueChange = { newValue ->
-                                    itemText = newValue
-                                    onItemChange(row, newValue)
-                                },
-                                modifier = Modifier.fillMaxWidth(),
-                                colors = TextFieldDefaults.colors(
-                                    unfocusedContainerColor = Color.Transparent,
-                                    focusedContainerColor = Color.Transparent,
-                                ),
-                                singleLine = true
-                            )
-                        }
-                        2 -> { // Qty column
-                            var qtyText by remember { mutableStateOf(contents[row * 2 + 1]) }
-                            TextField(
-                                value = qtyText,
-                                onValueChange = { newValue ->
-                                    newValue.toIntOrNull()?.let { qty ->
-                                        qtyText = newValue
-                                        onQtyChange(row, qty)
-                                    }
-                                },
-                                modifier = Modifier.fillMaxWidth(),
-                                colors = TextFieldDefaults.colors(
-                                    unfocusedContainerColor = Color.Transparent,
-                                    focusedContainerColor = Color.Transparent,
-                                ),
-                                singleLine = true,
-                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                            )
-                        }
+                    // Item Column (Index 1)
+                    Box(
+                        modifier = Modifier
+                            .weight(1.5f)
+                            .border(1.dp, Color.Gray)
+                            .background(Color.White)
+                            .height(60.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        var itemText by remember { mutableStateOf(contents[row * 2]) }
+                        TextField(
+                            value = itemText,
+                            onValueChange = { newValue ->
+                                itemText = newValue
+                                onItemChange(row, newValue)
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = TextFieldDefaults.colors(
+                                unfocusedContainerColor = Color.Transparent,
+                                focusedContainerColor = Color.Transparent,
+                            ),
+                            singleLine = true
+                        )
+                    }
+
+                    // Value Column (Index 2)
+                    Box(
+                        modifier = Modifier
+                            .weight(1.5f)
+                            .border(1.dp, Color.Gray)
+                            .background(Color.White)
+                            .height(60.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        var qtyText by remember { mutableStateOf(contents[row * 2 + 1]) }
+                        TextField(
+                            value = qtyText,
+                            onValueChange = { newValue ->
+                                newValue.toIntOrNull()?.let { qty ->
+                                    qtyText = newValue
+                                    onQtyChange(row, qty)
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = TextFieldDefaults.colors(
+                                unfocusedContainerColor = Color.Transparent,
+                                focusedContainerColor = Color.Transparent,
+                            ),
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                        )
                     }
                 }
             }
