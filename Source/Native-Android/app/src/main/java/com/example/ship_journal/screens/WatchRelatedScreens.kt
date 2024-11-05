@@ -459,6 +459,9 @@ fun JournalEntryMenuScreen(navController: NavHostController) {
 
 @Composable
 fun PreviewScreen(navController: NavHostController) {
+    var showDatePicker by remember { mutableStateOf(false) }
+    var selectedDate by remember { mutableStateOf<Long?>(null) }
+
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -466,50 +469,102 @@ fun PreviewScreen(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Top Bar with Icon and Centered Title
-            Row(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                    .padding(16.dp)
             ) {
-                Image(
-                    painter = painterResource(id = com.example.ship_journal.R.drawable.ic_monitor),
-                    contentDescription = "Monitor Icon",
-                    modifier = Modifier.size(40.dp)
-                )
-
+                // Center the title text
                 Text(
                     text = "Preview Screen",
                     style = MaterialTheme.typography.headlineMedium,
-                    modifier = Modifier
-                        .padding(start = 8.dp)
-                        .weight(1f),
+                    modifier = Modifier.align(Alignment.Center),
                     textAlign = TextAlign.Center
+                )
+
+                // Position the icon to the left of the centered text
+                Image(
+                    painter = painterResource(id = com.example.ship_journal.R.drawable.ic_monitor),
+                    contentDescription = "Monitor Icon",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .align(Alignment.CenterStart)
                 )
             }
 
-            // Placeholder for preview content
-            Text(
-                text = "Preview your content here.",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(16.dp),
-                textAlign = TextAlign.Center
-            )
+            // Today Button
+            Button(
+                onClick = {
+                    selectedDate = System.currentTimeMillis()
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
+                modifier = Modifier
+                    .width(0.4f * LocalConfiguration.current.screenWidthDp.dp.value.dp)
+                    .padding(vertical = 8.dp)
+            ) {
+                Text(text = "Today")
+            }
 
-            // Centered Save Button
+            // Date Picker Section
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Button(
+                    onClick = { showDatePicker = true },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
+                    modifier = Modifier
+                        .width(0.4f * LocalConfiguration.current.screenWidthDp.dp.value.dp)
+                        .padding(vertical = 8.dp)
+                ) {
+                    Text(text = "Year Month Day")
+                }
+
+                // Display selected date
+                selectedDate?.let {
+                    val formattedDate = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(it)
+                    Text(
+                        text = formattedDate,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                }
+            }
+
+            // Date Picker Modal
+            if (showDatePicker) {
+                DatePickerModal(
+                    onDateSelected = { dateMillis ->
+                        selectedDate = dateMillis
+                        showDatePicker = false
+                    },
+                    onDismiss = { showDatePicker = false }
+                )
+            }
+
+            // Bottom Row with Buttons
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
+                // Return Button
                 Button(
-                    onClick = { navController.navigate("home_screen") }, // Replace with actual home screen
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)), // Custom background color
+                    onClick = { navController.popBackStack() },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
                     modifier = Modifier.width(0.4f * LocalConfiguration.current.screenWidthDp.dp.value.dp)
                 ) {
-                    Text(text = "Save")
+                    Text(text = "Return")
+                }
+
+                // Next Button
+                Button(
+                    onClick = { /* Navigation will be added later */ },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
+                    modifier = Modifier.width(0.4f * LocalConfiguration.current.screenWidthDp.dp.value.dp)
+                ) {
+                    Text(text = "Next")
                 }
             }
         }
