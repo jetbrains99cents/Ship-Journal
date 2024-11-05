@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -195,9 +196,9 @@ fun JournalEntryMainEngineScreen(navController: NavHostController) {
                 }
 
                 Button(
-                    onClick = {6
+                    onClick = {
                         // Handle save operation here
-                        navController.navigate("watch_menu_selection_screen")
+                        navController.navigate("journal_entry_overall_preview_screen")
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
                     modifier = Modifier.width(150.dp)
@@ -372,7 +373,7 @@ fun JournalEntryAuxiliaryEngineScreen(navController: NavHostController) {
 
                 Button(
                     onClick = {
-                        navController.navigate("watch_menu_selection_screen")
+                        navController.navigate("journal_entry_overall_preview_screen")
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
                     modifier = Modifier.width(150.dp)
@@ -547,7 +548,7 @@ fun JournalEntryRefrigeratorScreen(navController: NavHostController) {
 
                 Button(
                     onClick = {
-                        navController.navigate("watch_menu_selection_screen")
+                        navController.navigate("journal_entry_overall_preview_screen")
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
                     modifier = Modifier.width(150.dp)
@@ -724,7 +725,225 @@ fun JournalEntryTemperatureScreen(navController: NavHostController) {
 
                 Button(
                     onClick = {
-                        navController.navigate("watch_menu_selection_screen")
+                        navController.navigate("journal_entry_overall_preview_screen")
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
+                    modifier = Modifier.width(150.dp)
+                ) {
+                    Text(text = "Complete")
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun JournalEntryOverallPreviewScreen(navController: NavHostController) {
+    // Define comment lists for each section
+    val meComments = listOf(
+        "All M/E parameters normal",
+        "M/E maintenance required",
+        "M/E requires attention"
+    )
+    val aeComments = listOf(
+        "All A/E parameters normal",
+        "A/E maintenance required",
+        "A/E requires attention"
+    )
+    val refComments = listOf(
+        "All REF parameters normal",
+        "REF maintenance required",
+        "REF requires attention"
+    )
+    val tempComments = listOf(
+        "All TEMP parameters normal",
+        "TEMP maintenance required",
+        "TEMP requires attention"
+    )
+
+    // Define initial contents for each section
+    val meContents = listOf(
+        "Engine Oil", "5",
+        "Fuel Filter", "2",
+        "Air Filter", "1",
+        "Cylinder Oil", "10",
+        "Oil Filter", "4",
+        "Fuel Injector", "6",
+        "Piston Ring", "12",
+        "Bearing Shell", "8",
+        "Gasket Set", "3",
+        "Coolant", "20"
+    )
+
+    val aeContents = listOf(
+        "Generator Oil", "5",
+        "Air Filter", "2",
+        "Belt", "3",
+        "Bearing", "4",
+        "Cooling Fan", "1",
+        "Control Panel", "2",
+        "Voltage Regulator", "1",
+        "Brushes", "6",
+        "Capacitor", "2",
+        "Fuse Set", "5"
+    )
+
+    val refContents = listOf(
+        "Refrigerant", "10",
+        "Compressor Oil", "5",
+        "Filter Drier", "2",
+        "Expansion Valve", "1",
+        "Thermostat", "2",
+        "Fan Belt", "3",
+        "Gasket", "4",
+        "O-Ring Set", "6",
+        "Pressure Switch", "2",
+        "Control Board", "1"
+    )
+
+    val tempContents = listOf(
+        "Temperature Sensor", "4",
+        "Thermocouple", "6",
+        "Heat Exchanger", "2",
+        "Control Valve", "3",
+        "Pressure Gauge", "5",
+        "Insulation", "10",
+        "Steam Trap", "4",
+        "Safety Valve", "2",
+        "Gasket Set", "6",
+        "Control Unit", "1"
+    )
+
+    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Top
+        ) {
+            Text(
+                text = "Journal Entry - Overall Preview",
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                // M/E Section
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = "M/E",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    CommentDropdown(comments = meComments)
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    JournalEntryGridView(
+                        columnTitles = listOf("No", "Item", "Value"),
+                        contents = meContents,
+                        onItemChange = { _, _ -> },
+                        onQtyChange = { _, _ -> }
+                    )
+                }
+
+                // A/E Section
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = "A/E",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    CommentDropdown(comments = aeComments)
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    JournalEntryGridView(
+                        columnTitles = listOf("No", "Item", "Value"),
+                        contents = aeContents,
+                        onItemChange = { _, _ -> },
+                        onQtyChange = { _, _ -> }
+                    )
+                }
+
+                // REF Section
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = "REF",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    CommentDropdown(comments = refComments)
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    JournalEntryGridView(
+                        columnTitles = listOf("No", "Item", "Value"),
+                        contents = refContents,
+                        onItemChange = { _, _ -> },
+                        onQtyChange = { _, _ -> }
+                    )
+                }
+
+                // TEMP Section
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = "TEMP",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    CommentDropdown(comments = tempComments)
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    JournalEntryGridView(
+                        columnTitles = listOf("No", "Item", "Value"),
+                        contents = tempContents,
+                        onItemChange = { _, _ -> },
+                        onQtyChange = { _, _ -> }
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Button(
+                    onClick = { navController.navigateUp() },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6C757D)),
+                    modifier = Modifier.width(150.dp)
+                ) {
+                    Text(text = "Return")
+                }
+
+                Button(
+                    onClick = {
+                        navController.navigate("journal_entry_menu_screen") {
+                            popUpTo("home_screen")
+                        }
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
                     modifier = Modifier.width(150.dp)
