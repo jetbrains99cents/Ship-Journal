@@ -4,9 +4,12 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -15,8 +18,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun JournalEntryGridView(
@@ -130,4 +137,122 @@ fun JournalEntryGridView(
     }
 }
 
+@Composable
+fun CheckCatchQuantityGridView(
+    columnTitles: List<String>,
+    contents: List<List<String>>,
+    onValueChange: (rowIndex: Int, colIndex: Int, newValue: String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        // Fixed Header Row
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            columnTitles.forEach { title ->
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .weight(1f)
+                        .border(1.dp, Color.LightGray)
+                        .padding(8.dp),
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
 
+        // Scrollable Content
+        LazyColumn {
+            items(contents.size) { rowIndex ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    contents[rowIndex].forEachIndexed { colIndex, value ->
+                        BasicTextField(
+                            value = value,
+                            onValueChange = { newValue ->
+                                onValueChange(rowIndex, colIndex, newValue)
+                            },
+                            textStyle = TextStyle(
+                                textAlign = TextAlign.Center,
+                                fontSize = 14.sp
+                            ),
+                            modifier = Modifier
+                                .weight(1f)
+                                .border(1.dp, Color.LightGray)
+                                .padding(8.dp)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun FORemainingGridView(
+    columnTitles: List<String> = listOf("Date", "3P>3S", "3S>3P"),
+    contents: List<List<String>>,
+    onValueChange: (rowIndex: Int, colIndex: Int, newValue: String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        // Fixed Header Row
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            columnTitles.forEach { title ->
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .weight(1f)
+                        .border(1.dp, Color.LightGray)
+                        .padding(8.dp),
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+
+        // Scrollable Content
+        LazyColumn {
+            items(contents.size) { rowIndex ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    contents[rowIndex].forEachIndexed { colIndex, value ->
+                        BasicTextField(
+                            value = value,
+                            onValueChange = { newValue ->
+                                onValueChange(rowIndex, colIndex, newValue)
+                            },
+                            textStyle = TextStyle(
+                                textAlign = TextAlign.Center,
+                                fontSize = 14.sp
+                            ),
+                            modifier = Modifier
+                                .weight(1f)
+                                .border(1.dp, Color.LightGray)
+                                .padding(8.dp)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}

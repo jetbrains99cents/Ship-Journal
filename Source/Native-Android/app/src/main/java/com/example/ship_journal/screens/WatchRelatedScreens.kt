@@ -3,8 +3,12 @@ package com.example.ship_journal.screens
 import com.example.ship_journal.screens.components.*
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 //import androidx.compose.foundation.layout.R
@@ -15,11 +19,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import androidx.navigation.NavHostController
 import java.text.SimpleDateFormat
+import kotlin.random.Random
 import java.util.*
 
 // Date selection screen definition
@@ -573,6 +581,17 @@ fun PreviewScreen(navController: NavHostController) {
 
 @Composable
 fun CheckCatchQuantityScreen(navController: NavHostController) {
+    var contents by remember {
+        mutableStateOf(List(20) { index ->
+            listOf(
+                "${(index + 1).toString().padStart(2, '0')}/11", // Date
+                (Random.nextInt(100, 999)).toString(),          // Carryover
+                (Random.nextInt(100, 999)).toString(),          // Today
+                (Random.nextInt(100, 999)).toString()           // Total
+            )
+        })
+    }
+
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -580,38 +599,44 @@ fun CheckCatchQuantityScreen(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Top Bar with Icon and Centered Title
-            Row(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                    .padding(16.dp)
             ) {
-                Image(
-                    painter = painterResource(id = com.example.ship_journal.R.drawable.ic_monitor),
-                    contentDescription = "Monitor Icon",
-                    modifier = Modifier.size(40.dp)
-                )
-
                 Text(
                     text = "Check Catch Quantity",
                     style = MaterialTheme.typography.headlineMedium,
-                    modifier = Modifier
-                        .padding(start = 8.dp)
-                        .weight(1f),
+                    modifier = Modifier.align(Alignment.Center),
                     textAlign = TextAlign.Center
+                )
+
+                Image(
+                    painter = painterResource(id = com.example.ship_journal.R.drawable.ic_monitor),
+                    contentDescription = "Monitor Icon",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .align(Alignment.CenterStart)
                 )
             }
 
-            // Placeholder for catch quantity content
-            Text(
-                text = "Check the catch quantity here.",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(16.dp),
-                textAlign = TextAlign.Center
+            // Grid View
+            CheckCatchQuantityGridView(
+                columnTitles = listOf("Date", "Carryover", "Today", "Total"),
+                contents = contents,
+                onValueChange = { rowIndex, colIndex, newValue ->
+                    contents = contents.toMutableList().apply {
+                        val row = this[rowIndex].toMutableList()
+                        row[colIndex] = newValue
+                        this[rowIndex] = row
+                    }
+                },
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 16.dp)
             )
 
-            // Centered Save Button
+            // Save Button
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -619,8 +644,8 @@ fun CheckCatchQuantityScreen(navController: NavHostController) {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Button(
-                    onClick = { navController.navigate("home_screen") }, // Replace with actual home screen
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)), // Custom background color
+                    onClick = { navController.navigate("home_screen") },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2690A3)),
                     modifier = Modifier.width(0.4f * LocalConfiguration.current.screenWidthDp.dp.value.dp)
                 ) {
                     Text(text = "Save")
@@ -632,6 +657,16 @@ fun CheckCatchQuantityScreen(navController: NavHostController) {
 
 @Composable
 fun FORemainingScreen(navController: NavHostController) {
+    var contents by remember {
+        mutableStateOf(List(20) { index ->
+            listOf(
+                "${(index + 1).toString().padStart(2, '0')}/11", // Date
+                (Random.nextInt(100, 999)).toString(),          // 3P>3S
+                (Random.nextInt(100, 999)).toString()           // 3S>3P
+            )
+        })
+    }
+
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -662,12 +697,19 @@ fun FORemainingScreen(navController: NavHostController) {
                 )
             }
 
-            // Placeholder for FO remaining content
-            Text(
-                text = "View FO remaining here.",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(16.dp),
-                textAlign = TextAlign.Center
+            // Grid View
+            FORemainingGridView(
+                contents = contents,
+                onValueChange = { rowIndex, colIndex, newValue ->
+                    contents = contents.toMutableList().apply {
+                        val row = this[rowIndex].toMutableList()
+                        row[colIndex] = newValue
+                        this[rowIndex] = row
+                    }
+                },
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 16.dp)
             )
 
             // Centered Save Button
